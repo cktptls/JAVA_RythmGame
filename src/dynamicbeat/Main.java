@@ -4,7 +4,7 @@ public class Main {
 	
 	public static final int SCREEN_WIDTH = 1280;
 	public static final int SCREEN_HEIGHT = 720;
-	// °ÔÀÓ È­¸é ÇØ»óµµ 1280 * 720 ¼³Á¤
+	// ê²Œì„ í™”ë©´ í•´ìƒë„ 1280 * 720 ì„¤ì •
 	
 	public static void main(String[] args) {
 		new DynamicBeat();

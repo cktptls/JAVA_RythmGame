@@ -10,20 +10,24 @@ public class DynamicBeat extends JFrame {
 	
 	private Image screenImage;
 	private Graphics screenGraphic;
-	// ´õºí ¹öÆÛ¸µÀ» À§ÇÑ ÀüÃ¼È­¸é¿¡ ´ëÇÑ ÀÌ¹ÌÁö¸¦ ´ã´Â °´Ã¼
+	// ë”ë¸” ë²„í¼ë§ì„ ìœ„í•œ ì „ì²´ í™”ë©´ì— ëŒ€í•œ ì´ë¯¸ì§€ ê°ì²´
 	
 	private Image introBackground;
-	// ·ÎÄÃ¿¡¼­ °¡Á®¿Â ÀÌ¹ÌÁö¸¦ ´ã´Â °´Ã¼
+	// ë¡œì»¬ì—ì„œ ê°€ì ¸ì˜¨ ì´ë¯¸ì§€ë¥¼ ë¶ˆëŸ¬ì˜¬ ê°ì²´
 	
 	public DynamicBeat() {
 		setTitle("Dynamic Beat");
 		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
-		setResizable(false); // °ÔÀÓ È­¸é ÇØ»óµµ ÀÓÀÇÀûÀ¸·Î Á¶Á¤ ºÒ°¡´É
-		setLocationRelativeTo(null); // °ÔÀÓ È­¸é Ãâ·Â ½Ã ÄÄÇ»ÅÍ Á¤Áß¾Ó Ãâ·Â
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // °ÔÀÓ È­¸é Á¾·á ½Ã ÇÁ·Î¼¼½º Á¾·á
-		setVisible(true); // ½ÇÁ¦ °ÔÀÓ È­¸é Ãâ·Â
+		setResizable(false); // ì‚¬ìš©ìê°€ ì„ì˜ë¡œ ì°½ ì¡°ì ˆ ë¶ˆê°€
+		setLocationRelativeTo(null); // í™”ë©´ ì‹¤í–‰ ì‹œ ì»´í“¨í„°ì˜ ì •ì¤‘ì•™ìœ¼ë¡œ ì¶œë ¥
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•˜ë©´ í”„ë¡œì„¸ìŠ¤ ì¢…ë£Œ
+		setVisible(true); // ì‹¤ì œ ê²Œì„ í™”ë©´ ì¶œë ¥
 		
 		introBackground = new ImageIcon(Main.class.getResource("../images/introBackground.jpg")).getImage();
+		
+		Music introMusic = new Music("introMusic.mp3", true);
+		introMusic.start();
+		
 	}
 	
 	public void paint(Graphics g) {
