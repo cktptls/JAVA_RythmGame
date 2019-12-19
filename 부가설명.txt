@@ -1,0 +1,19 @@
+이 프로젝트는 유튜버 "나동빈"님의 강의를 보며 제작함
+[출처] https://www.youtube.com/watch?v=xs92kqU2YWg&list=PLi4bavevU4Lcx12py5l-hjRtrPw3LjNjc&index=1
+
+
+개발환경 : eclipse
+
+JAVA SE Developement Kit 설치
+- 환경변수 설정
+- 새로만들기 -> JAVA_HOME, 경로
+- PATH 편집 -> 추가된 변수에 \bin폴더 추가
+- cmd창에서 javac 명령어 입력하여 설치되었는지 확인 가능
+
+음악실행 Library 설치
+- javaZoom.net 사이트 - JLayer.jar 설치
+- 프로젝트에서 BuidPath를 통해 Library에서 JARS 추가 버튼 - JLayer 추가
+(JAVA9 버전부터 모듈기능 도입으로 class path에서 JLayer 추가)
+
+음악관련 : youtube. non copyrighted intro music 무료 사용 가능 음악
+IntroMusic : K - 391 - Escape (Vexento Remix)
