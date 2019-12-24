@@ -36,8 +36,8 @@ public class Music extends Thread {
 				player = new Player(bis);
 			} while(isLoop);
 			// isLoop가 True값을 가질 경우 무한 반복
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
+		} catch(Exception ex) {
+			System.out.println(ex.getMessage());
 		}
 	}
 }
