@@ -19,7 +19,7 @@ public class DynamicBeat extends JFrame {
 	private Graphics screenGraphic;
 	// 더블 버퍼링을 위한 전체 화면에 대한 이미지 객체
 	
-	private Image introBackground  = new ImageIcon(Main.class.getResource("../images/introBackground.jpg")).getImage();
+	private Image Background  = new ImageIcon(Main.class.getResource("../images/introBackground.jpg")).getImage();
 	// 로컬에서 가져온 이미지를 불러올 객체
 	
 	private ImageIcon shutdownBasicImage = new ImageIcon(Main.class.getResource("../images/shutdownButton_Entered.png"));
@@ -116,6 +116,20 @@ public class DynamicBeat extends JFrame {
 				startButton.setIcon(startBasicImage);
 				startButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Music buttonPressedMusic = new Music("buttonPressedMusic.mp3", false);
+				buttonPressedMusic.start();
+				try {
+					Thread.sleep(500);
+				} catch(Exception ex) {
+					ex.getMessage();
+				}
+				startButton.setVisible(false);
+				quitButton.setVisible(false);
+				Background = new ImageIcon(Main.class.getResource("../images/mainBackground.jpg")).getImage();
+				// introBackground의 배경 화면을 mainBackgorund의 게임화면으로 전환
+			}
 		});
 		add(startButton);
 		
@@ -163,7 +177,7 @@ public class DynamicBeat extends JFrame {
 	}
 	
 	public void screenDraw(Graphics g) {
-		g.drawImage(introBackground, 0, 0, null);
+		g.drawImage(Background, 0, 0, null);
 		paintComponents(g); // JLabel과 같이 고정적으로 존재하는 이미지에 사용
 		this.repaint();
 	}
