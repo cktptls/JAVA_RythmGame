@@ -20,21 +20,32 @@ public class DynamicBeat extends JFrame {
 	// 더블 버퍼링을 위한 전체 화면에 대한 이미지 객체
 	
 	private Image Background  = new ImageIcon(Main.class.getResource("../images/introBackground.jpg")).getImage();
-	// 로컬에서 가져온 이미지를 불러올 객체
+	// 로컬에서 가져온 이미지
+	private Image selectedImage  = new ImageIcon(Main.class.getResource("../images/Joakim Karud - Mighty Love Image.png")).getImage();
+	// 현재 선택된 곡의 시작 이미지
 	
-	private ImageIcon shutdownBasicImage = new ImageIcon(Main.class.getResource("../images/shutdownButton_Entered.png"));
-	private ImageIcon shutdownEnteredImage = new ImageIcon(Main.class.getResource("../images/shutdownButton_Basic.png"));
-	private ImageIcon startBasicImage = new ImageIcon(Main.class.getResource("../images/startButtonBasic.png"));
-	private ImageIcon startEnteredImage = new ImageIcon(Main.class.getResource("../images/startButtonEntered.png"));
-	private ImageIcon quitBasicImage = new ImageIcon(Main.class.getResource("../images/quitButtonBasic.png"));
-	private ImageIcon quitEnteredImage = new ImageIcon(Main.class.getResource("../images/quitButtonEntered.png"));
+	private ImageIcon shutdownBasicImage = new ImageIcon(Main.class.getResource("../images/shutdownButton_Basic.png"));
+	private ImageIcon shutdownEnteredImage = new ImageIcon(Main.class.getResource("../images/shutdownButton_Entered.png"));
+	private ImageIcon startBasicImage = new ImageIcon(Main.class.getResource("../images/startButton_Basic.png"));
+	private ImageIcon startEnteredImage = new ImageIcon(Main.class.getResource("../images/startButton_Entered.png"));
+	private ImageIcon quitBasicImage = new ImageIcon(Main.class.getResource("../images/quitButton_Basic.png"));
+	private ImageIcon quitEnteredImage = new ImageIcon(Main.class.getResource("../images/quitButton_Entered.png"));
+	private ImageIcon rightBasicImage = new ImageIcon(Main.class.getResource("../images/rightButton_Basic.png"));
+	private ImageIcon rightEnteredImage = new ImageIcon(Main.class.getResource("../images/rightButton_Entered.png"));
+	private ImageIcon leftBasicImage = new ImageIcon(Main.class.getResource("../images/leftButton_Basic.png"));
+	private ImageIcon leftEnteredImage = new ImageIcon(Main.class.getResource("../images/leftButton_Entered.png"));
 	
 	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("../images/menuBar.png")));
 	private JButton shutdownButton = new JButton(shutdownBasicImage);
 	private JButton startButton = new JButton(startBasicImage);
 	private JButton quitButton = new JButton(quitBasicImage);
+	private JButton rightButton = new JButton(rightBasicImage);
+	private JButton leftButton = new JButton(leftBasicImage);
 	
 	private int mouseX, mouseY; // 화면 창에서 마우스의 좌표 얻을 변수
+	
+	private boolean isMainScreen = false; // 메인화면인지 시작화면인지 판단하는 변수
+	// 메인화면이 아닌 시작화면이기 때문에 초기값을 false로 설정, 시작화면에서 메인화면으로 넘어갈 때 true값
 	
 	public DynamicBeat() {
 		setUndecorated(true); // 기본적으로 존재하는 메뉴바 숨김
@@ -127,8 +138,11 @@ public class DynamicBeat extends JFrame {
 				}
 				startButton.setVisible(false);
 				quitButton.setVisible(false);
+				rightButton.setVisible(true);
+				leftButton.setVisible(true);
 				Background = new ImageIcon(Main.class.getResource("../images/mainBackground.jpg")).getImage();
 				// introBackground의 배경 화면을 mainBackgorund의 게임화면으로 전환
+				isMainScreen = true;
 			}
 		});
 		add(startButton);
@@ -164,6 +178,61 @@ public class DynamicBeat extends JFrame {
 		});
 		add(quitButton);
 		
+		leftButton.setBounds(140, 300, 60, 60);
+		leftButton.setBorderPainted(false);
+		leftButton.setContentAreaFilled(false);
+		leftButton.setFocusPainted(false);
+		leftButton.setVisible(false);
+		leftButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				leftButton.setIcon(leftEnteredImage);
+				leftButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
+				buttonEnteredMusic.start();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				leftButton.setIcon(leftBasicImage);
+				leftButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Music buttonPressedMusic = new Music("buttonPressedMusic.mp3", false);
+				buttonPressedMusic.start();
+			}
+		});
+		add(leftButton);
+		
+		rightButton.setBounds(1040, 300, 60, 60);
+		rightButton.setBorderPainted(false);
+		rightButton.setContentAreaFilled(false);
+		rightButton.setFocusPainted(false);
+		rightButton.setVisible(false);
+		rightButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				rightButton.setIcon(rightEnteredImage);
+				rightButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
+				buttonEnteredMusic.start();
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				rightButton.setIcon(rightBasicImage);
+				rightButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// 이벤트 처리 
+				Music buttonPressedMusic = new Music("buttonPressedMusic.mp3", false);
+				buttonPressedMusic.start();
+			}
+		});
+		add(rightButton);
+		
 		Music introMusic = new Music("introMusic.mp3", true);
 		introMusic.start();
 		
@@ -178,7 +247,11 @@ public class DynamicBeat extends JFrame {
 	
 	public void screenDraw(Graphics g) {
 		g.drawImage(Background, 0, 0, null);
-		paintComponents(g); // JLabel과 같이 고정적으로 존재하는 이미지에 사용
+		// 일반적인 이미지, 역동적인 이미지 등은 draw이미지 함수로 이용
+		if(isMainScreen) {
+			g.drawImage(selectedImage, 340, 100, null);
+		}
+		paintComponents(g); // JLabel과 같이 add()를 이용한 고정적으로 존재하는 이미지에 사용
 		this.repaint();
 	}
 }
