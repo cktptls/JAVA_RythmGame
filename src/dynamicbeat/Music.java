@@ -40,4 +40,11 @@ public class Music extends Thread {
 			System.out.println(ex.getMessage());
 		}
 	}
+
+	public void close() {
+		isLoop = false;
+		player.close();
+		this.interrupt();
+		// 곡 재생 쓰레드를 종료
+	}
 }
