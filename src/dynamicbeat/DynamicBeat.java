@@ -2,8 +2,11 @@ package dynamicbeat;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -14,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+// import com.sun.tools.javac.Main;
+
 public class DynamicBeat extends JFrame {
 	
 	private Image screenImage;
@@ -21,6 +26,11 @@ public class DynamicBeat extends JFrame {
 	// 더블 버퍼링을 위한 전체 화면에 대한 이미지
 	private Image Background  = new ImageIcon(Main.class.getResource("../images/introBackground.jpg")).getImage();
 	// 로컬에서 가져온 이미지
+	private Image gameInfoImage = new ImageIcon(Main.class.getResource("../images/gameInfo.png")).getImage();
+	private Image judgementLineImage = new ImageIcon(Main.class.getResource("../images/judgementLine.png")).getImage();
+	private Image noteRouteImage = new ImageIcon(Main.class.getResource("../images/noteRoute.png")).getImage();
+	private Image noteRouteLineImage = new ImageIcon(Main.class.getResource("../images/noteRouteLine.png")).getImage();
+	private Image noteBasicImage = new ImageIcon(Main.class.getResource("../images/noteBasic.png")).getImage();
 	
 	private ImageIcon shutdownBasicImage = new ImageIcon(Main.class.getResource("../images/shutdownButton_Basic.png"));
 	private ImageIcon shutdownEnteredImage = new ImageIcon(Main.class.getResource("../images/shutdownButton_Entered.png"));
@@ -52,6 +62,7 @@ public class DynamicBeat extends JFrame {
 	private int mouseX, mouseY;		// 화면 창에서 마우스의 좌표 얻을 변수
 	
 	private boolean isMainScreen = false; // 메인화면인지 시작화면인지 판단하는 변수. 시작화면에서 메인화면으로 넘어갈 때 true값
+	private boolean isGameScreen = false; // 게임화면인지 판단
 	
 	ArrayList<Track> trackList = new ArrayList<Track>();
 	
@@ -337,15 +348,64 @@ public class DynamicBeat extends JFrame {
 	public void paint(Graphics g) {
 		screenImage = createImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		screenGraphic = screenImage.getGraphics();
-		screenDraw(screenGraphic);
+		screenDraw((Graphics2D) screenGraphic);
 		g.drawImage(screenImage, 0, 0, null);
 	}
 	
-	public void screenDraw(Graphics g) {
+	public void screenDraw(Graphics2D g) {
 		g.drawImage(Background, 0, 0, null); // 일반적인 이미지, 역동적인 이미지 등은 draw이미지 함수로 이용
 		if(isMainScreen) {
 			g.drawImage(selectedImage, 340, 150, null);
 			g.drawImage(titleImage, 340, 35, null);
+		}
+		if(isGameScreen) {
+			
+			g.drawImage(noteRouteLineImage, 236, 30, null);
+			g.drawImage(noteRouteImage, 240, 30, null);
+			g.drawImage(noteRouteLineImage, 340, 30, null);
+			g.drawImage(noteRouteImage, 344, 30, null);
+			g.drawImage(noteRouteLineImage, 444, 30, null);
+			g.drawImage(noteRouteImage, 448, 30, null);
+			g.drawImage(noteRouteLineImage, 548, 30, null);
+			g.drawImage(noteRouteImage, 552, 30, null);
+			g.drawImage(noteRouteImage, 652, 30, null);
+			g.drawImage(noteRouteLineImage, 752, 30, null);
+			g.drawImage(noteRouteImage, 756, 30, null);
+			g.drawImage(noteRouteLineImage, 856, 30, null);
+			g.drawImage(noteRouteImage, 860, 30, null);
+			g.drawImage(noteRouteLineImage, 960, 30, null);
+			g.drawImage(noteRouteImage, 964, 30, null);
+			g.drawImage(noteRouteLineImage, 1064, 30, null);
+			
+			g.drawImage(gameInfoImage, 0, 660, null);
+			g.drawImage(judgementLineImage, 0, 560, null);
+			
+			g.drawImage(noteBasicImage, 240, 30, null);
+			g.drawImage(noteBasicImage, 344, 69, null);
+			g.drawImage(noteBasicImage, 448, 560, null);
+			g.drawImage(noteBasicImage, 552, 144, null);
+			g.drawImage(noteBasicImage, 652, 144, null);
+			g.drawImage(noteBasicImage, 756, 125, null);
+			g.drawImage(noteBasicImage, 860, 38, null);
+			g.drawImage(noteBasicImage, 964, 57, null);
+			
+			g.setColor(Color.white);
+			g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			g.setFont(new Font("Arial", Font.BOLD, 30));
+			g.drawString("Joakim Karud - Mighty Love", 20, 702);
+			g.drawString("Easy", 1190, 702);
+			g.setColor(Color.DARK_GRAY);
+			g.setFont(new Font("Arial", Font.PLAIN, 30));
+			g.drawString("S", 280, 590);
+			g.drawString("D", 384, 590);
+			g.drawString("F", 488, 590);
+			g.drawString("Space Bar", 582, 590);
+			g.drawString("J", 796, 590);
+			g.drawString("K", 900, 590);
+			g.drawString("L", 1004, 590);
+			g.setColor(Color.LIGHT_GRAY);
+			g.setFont(new Font("Elephant", Font.BOLD, 30));
+			g.drawString("000000", 565, 702); // 점수
 		}
 		paintComponents(g); // JLabel과 같이 add()를 이용한 고정적으로 존재하는 이미지에 사용
 		this.repaint();
@@ -392,6 +452,7 @@ public class DynamicBeat extends JFrame {
 		} catch(Exception ex) {
 			ex.getMessage();
 		}
+		isGameScreen = true;
 		isMainScreen = false;
 		if(difficulty == "easy") {
 			Background = new ImageIcon(Main.class.getResource("../images/gameBackground Easy.jpg")).getImage();
@@ -402,6 +463,7 @@ public class DynamicBeat extends JFrame {
 	
 	public void backMain() {
 		backButton.setVisible(false);
+		isGameScreen = false;
 		isMainScreen = true;
 		Background = new ImageIcon(Main.class.getResource("../Images/mainBackground.jpg")).getImage();
 		rightButton.setVisible(true);
