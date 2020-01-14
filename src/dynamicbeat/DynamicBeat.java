@@ -26,11 +26,6 @@ public class DynamicBeat extends JFrame {
 	// 더블 버퍼링을 위한 전체 화면에 대한 이미지
 	private Image Background  = new ImageIcon(Main.class.getResource("../images/introBackground.jpg")).getImage();
 	// 로컬에서 가져온 이미지
-	private Image gameInfoImage = new ImageIcon(Main.class.getResource("../images/gameInfo.png")).getImage();
-	private Image judgementLineImage = new ImageIcon(Main.class.getResource("../images/judgementLine.png")).getImage();
-	private Image noteRouteImage = new ImageIcon(Main.class.getResource("../images/noteRoute.png")).getImage();
-	private Image noteRouteLineImage = new ImageIcon(Main.class.getResource("../images/noteRouteLine.png")).getImage();
-	private Image noteBasicImage = new ImageIcon(Main.class.getResource("../images/noteBasic.png")).getImage();
 	
 	private ImageIcon shutdownBasicImage = new ImageIcon(Main.class.getResource("../images/shutdownButton_Basic.png"));
 	private ImageIcon shutdownEnteredImage = new ImageIcon(Main.class.getResource("../images/shutdownButton_Entered.png"));
@@ -73,6 +68,8 @@ public class DynamicBeat extends JFrame {
 	
 	private Music introMusic = new Music("introMusic.mp3", true);
 	
+	public static Game game = new Game(); // 프로젝트 전체에서 사용되는 하나의 변수로 설정
+	
 	public DynamicBeat() {
 		setUndecorated(true);			// 기본적으로 존재하는 메뉴바 숨김
 		setTitle("Dynamic Beat");
@@ -83,6 +80,9 @@ public class DynamicBeat extends JFrame {
 		setVisible(true); 				// 실제 게임 화면 출력
 		setBackground(new Color(0, 0, 0, 0));
 		setLayout(null); 				// 버튼이나 JLable등을 나타냄
+		
+		addKeyListener(new keyListener());
+		
 		introMusic.start();
 		
 		trackList.add(new Track("Joakim Karud - Mighty Love Title.png", "Joakim Karud - Mighty Love Image.png",
@@ -359,53 +359,7 @@ public class DynamicBeat extends JFrame {
 			g.drawImage(titleImage, 340, 35, null);
 		}
 		if(isGameScreen) {
-			
-			g.drawImage(noteRouteLineImage, 236, 30, null);
-			g.drawImage(noteRouteImage, 240, 30, null);
-			g.drawImage(noteRouteLineImage, 340, 30, null);
-			g.drawImage(noteRouteImage, 344, 30, null);
-			g.drawImage(noteRouteLineImage, 444, 30, null);
-			g.drawImage(noteRouteImage, 448, 30, null);
-			g.drawImage(noteRouteLineImage, 548, 30, null);
-			g.drawImage(noteRouteImage, 552, 30, null);
-			g.drawImage(noteRouteImage, 652, 30, null);
-			g.drawImage(noteRouteLineImage, 752, 30, null);
-			g.drawImage(noteRouteImage, 756, 30, null);
-			g.drawImage(noteRouteLineImage, 856, 30, null);
-			g.drawImage(noteRouteImage, 860, 30, null);
-			g.drawImage(noteRouteLineImage, 960, 30, null);
-			g.drawImage(noteRouteImage, 964, 30, null);
-			g.drawImage(noteRouteLineImage, 1064, 30, null);
-			
-			g.drawImage(gameInfoImage, 0, 660, null);
-			g.drawImage(judgementLineImage, 0, 560, null);
-			
-			g.drawImage(noteBasicImage, 240, 30, null);
-			g.drawImage(noteBasicImage, 344, 69, null);
-			g.drawImage(noteBasicImage, 448, 560, null);
-			g.drawImage(noteBasicImage, 552, 144, null);
-			g.drawImage(noteBasicImage, 652, 144, null);
-			g.drawImage(noteBasicImage, 756, 125, null);
-			g.drawImage(noteBasicImage, 860, 38, null);
-			g.drawImage(noteBasicImage, 964, 57, null);
-			
-			g.setColor(Color.white);
-			g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			g.setFont(new Font("Arial", Font.BOLD, 30));
-			g.drawString("Joakim Karud - Mighty Love", 20, 702);
-			g.drawString("Easy", 1190, 702);
-			g.setColor(Color.DARK_GRAY);
-			g.setFont(new Font("Arial", Font.PLAIN, 30));
-			g.drawString("S", 280, 590);
-			g.drawString("D", 384, 590);
-			g.drawString("F", 488, 590);
-			g.drawString("Space Bar", 582, 590);
-			g.drawString("J", 796, 590);
-			g.drawString("K", 900, 590);
-			g.drawString("L", 1004, 590);
-			g.setColor(Color.LIGHT_GRAY);
-			g.setFont(new Font("Elephant", Font.BOLD, 30));
-			g.drawString("000000", 565, 702); // 점수
+			game.screenDraw(g);
 		}
 		paintComponents(g); // JLabel과 같이 add()를 이용한 고정적으로 존재하는 이미지에 사용
 		this.repaint();
@@ -459,6 +413,7 @@ public class DynamicBeat extends JFrame {
 		} else
 			Background = new ImageIcon(Main.class.getResource("../images/gameBackground Hard.jpg")).getImage();
 		backButton.setVisible(true);
+		setFocusable(true); // 키보드 포커스
 	}
 	
 	public void backMain() {
