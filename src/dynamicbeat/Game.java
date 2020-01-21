@@ -23,6 +23,19 @@ public class Game extends Thread {
 	private Image noteRouteKImage = new ImageIcon(Main.class.getResource("../images/noteRoute.png")).getImage();
 	private Image noteRouteLImage = new ImageIcon(Main.class.getResource("../images/noteRoute.png")).getImage();
 	
+	private String titleName;
+	private String difficulty;
+	private String musicTitle;
+	private Music gameMusic;
+	
+	public Game(String titleName, String difficulty, String musicTitle) {
+		this.titleName = titleName;
+		this.difficulty = difficulty;
+		this.musicTitle = musicTitle;
+		gameMusic = new Music(this.musicTitle, false);
+		gameMusic.start();
+	}
+	
 	public void screenDraw(Graphics2D g) {
 		g.drawImage(noteRouteLineImage, 236, 30, null);
 		g.drawImage(noteRouteSImage, 240, 30, null);
@@ -54,10 +67,15 @@ public class Game extends Thread {
 		g.drawImage(noteBasicImage, 964, 57, null);
 		
 		g.setColor(Color.white);
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		/* g.setFont(new Font("Arial", Font.BOLD, 30));
-		g.drawString("Joakim Karud - Mighty Love", 20, 702);
-		g.drawString("Easy", 1190, 702); */
+		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); // 글씨 선명도
+		g.setFont(new Font("Arial", Font.BOLD, 30));
+		g.drawString(titleName, 30, 702); // 곡 이름
+		g.drawString(difficulty, 1150, 702); // 곡 난이도
+
+		g.setColor(Color.LIGHT_GRAY);
+		g.setFont(new Font("Elephant", Font.BOLD, 30));
+		g.drawString("000000", 565, 702); // 점수
+		
 		g.setColor(Color.DARK_GRAY);
 		g.setFont(new Font("Arial", Font.PLAIN, 30));
 		g.drawString("S", 280, 590);
@@ -67,9 +85,6 @@ public class Game extends Thread {
 		g.drawString("J", 796, 590);
 		g.drawString("K", 900, 590);
 		g.drawString("L", 1004, 590);
-		g.setColor(Color.LIGHT_GRAY);
-		g.setFont(new Font("Elephant", Font.BOLD, 30));
-		g.drawString("000000", 565, 702); // 점수
 	}
 	
 	public void pressS() {
@@ -140,5 +155,10 @@ public class Game extends Thread {
 	@Override
 	public void run() { // Thread는  run메소드를 무조건 실행해야함
 		
+	}
+	
+	public void close() {
+		gameMusic.close();
+		this.interrupt();
 	}
 }

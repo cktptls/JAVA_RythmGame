@@ -68,14 +68,14 @@ public class DynamicBeat extends JFrame {
 	
 	private Music introMusic = new Music("introMusic.mp3", true);
 	
-	public static Game game = new Game(); // 프로젝트 전체에서 사용되는 하나의 변수로 설정
+	public static Game game; // 프로젝트 전체에서 사용되는 하나의 변수로 설정
 	
 	public DynamicBeat() {
 		setUndecorated(true);			// 기본적으로 존재하는 메뉴바 숨김
 		setTitle("Dynamic Beat");
 		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		setResizable(false);			// 사용자가 임의로 창 조절 불가
-		setLocationRelativeTo(null);	// 화면 실행 시 컴퓨터의 정중앙으로 출력
+		setLocationRelativeTo(null);	// 화면  실행 시 컴퓨터의 정중앙으로 출력
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 프로그램을 종료하면 프로세스 자체 종료
 		setVisible(true); 				// 실제 게임 화면 출력
 		setBackground(new Color(0, 0, 0, 0));
@@ -86,11 +86,11 @@ public class DynamicBeat extends JFrame {
 		introMusic.start();
 		
 		trackList.add(new Track("Joakim Karud - Mighty Love Title.png", "Joakim Karud - Mighty Love Image.png",
-				"Joakim Karud - Mighty Love Highright.mp3", "Joakim Karud - Mighty Love.mp3"));
+				"Joakim Karud - Mighty Love Highright.mp3", "Joakim Karud - Mighty Love.mp3", "Joakim Karud"));
 		trackList.add(new Track("Joakim Karud - Dreams Title.png", "Joakim Karud - Dreams Image.png",
-				"Joakim Karud - Dreams Highright.mp3", "Joakim Karud - Dreams.mp3"));
+				"Joakim Karud - Dreams Highright.mp3", "Joakim Karud - Dreams.mp3", "Joakim Karud"));
 		trackList.add(new Track("HYP - Dynamic Summer Title.png", "HYP - Dynamic Summer Image.png",
-				"HYP - Dynamic Summer Highright.mp3", "HYP - Dynamic Summer.mp3"));
+				"HYP - Dynamic Summer Highright.mp3", "HYP - Dynamic Summer.mp3", "Joakim Karud"));
 
 		shutdownButton.setBounds(1245, 0, 32, 32);
 		shutdownButton.setBorderPainted(false); 	// 버튼 테두리 설정
@@ -108,7 +108,7 @@ public class DynamicBeat extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				shutdownButton.setIcon(shutdownBasicImage);
 				shutdownButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			}
+			} 
 			@Override
 			public void mousePressed(MouseEvent e) {
 				Music buttonPressedMusic = new Music("buttonPressedMusic.mp3", false);
@@ -310,7 +310,7 @@ public class DynamicBeat extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				Music buttonPressedMusic = new Music("buttonPressedMusic.mp3", false);
 				buttonPressedMusic.start();
-				gameStart(nowSelected, "easy");
+				gameStart(nowSelected, "Easy");
 			}
 		});
 		add(easyButton);
@@ -337,7 +337,7 @@ public class DynamicBeat extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				Music buttonPressedMusic = new Music("buttonPressedMusic.mp3", false);
 				buttonPressedMusic.start();
-				gameStart(nowSelected, "hard");
+				gameStart(nowSelected, "Hard");
 			}
 		});
 		add(hardButton);
@@ -406,6 +406,7 @@ public class DynamicBeat extends JFrame {
 		} catch(Exception ex) {
 			ex.getMessage();
 		}
+		game = new Game(trackList.get(nowSelected).getTitleName(), difficulty, trackList.get(nowSelected).getGameMusic());
 		isGameScreen = true;
 		isMainScreen = false;
 		if(difficulty == "easy") {
@@ -426,6 +427,7 @@ public class DynamicBeat extends JFrame {
 		easyButton.setVisible(true);
 		hardButton.setVisible(true);
 		selectedTrack(nowSelected);
+		game.close();
 	}
 	
 	public void enteredMain() {
